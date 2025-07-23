@@ -104,7 +104,7 @@ const Home = () => {
             Find Your Dream Home
           </h1>
           <p className="text-xl md:text-2xl text-white/90 mb-8 text-reveal text-reveal-delay-1">
-            Discover the perfect property with Sainah Homes - your trusted real estate partner
+            Discover the perfect property with Sainah Homes - your trusted real estate partner. Buy or sell with confidence.
           </p>
           
           {/* Search Bar */}
