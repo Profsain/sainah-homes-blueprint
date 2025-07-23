@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardContent } from "@/components/ui/card";
@@ -17,6 +18,12 @@ const Home = () => {
     priceRange: "",
     propertyType: ""
   });
+
+  // Scroll reveal refs
+  const statsRef = useScrollReveal();
+  const propertiesRef = useScrollReveal();
+  const aboutRef = useScrollReveal();
+  const testimonialsRef = useScrollReveal();
 
   const featuredProperties = [
     {
@@ -93,15 +100,15 @@ const Home = () => {
           }}
         />
         <div className="relative z-10 text-center max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 animate-fade-in">
+          <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 text-reveal">
             Find Your Dream Home
           </h1>
-          <p className="text-xl md:text-2xl text-white/90 mb-8 animate-slide-up">
+          <p className="text-xl md:text-2xl text-white/90 mb-8 text-reveal text-reveal-delay-1">
             Discover the perfect property with Sainah Homes - your trusted real estate partner
           </p>
           
           {/* Search Bar */}
-          <div className="bg-white rounded-lg p-6 shadow-2xl max-w-4xl mx-auto animate-slide-up">
+          <div className="bg-white rounded-lg p-6 shadow-2xl max-w-4xl mx-auto text-reveal text-reveal-delay-2 pulse-glow">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
                 <Input
@@ -147,12 +154,12 @@ const Home = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 bg-cream" ref={statsRef}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
-              <div key={index} className="text-center animate-slide-up">
-                <div className="inline-flex items-center justify-center w-16 h-16 bg-gold rounded-full mb-4">
+              <div key={index} className="text-center stagger-item floating">
+                <div className="inline-flex items-center justify-center w-16 h-16 bg-gold rounded-full mb-4 magnetic pulse-glow">
                   <stat.icon className="w-8 h-8 text-navy" />
                 </div>
                 <div className="text-3xl font-bold text-navy mb-2">{stat.value}</div>
@@ -164,24 +171,24 @@ const Home = () => {
       </section>
 
       {/* Featured Properties */}
-      <section className="py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+      <section className="py-20 bg-background" ref={propertiesRef}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
+          <div className="text-center mb-16 reveal reveal-delay-100">
             <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">Featured Properties</h2>
             <p className="text-xl text-text-soft">Discover our handpicked selection of premium properties</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {featuredProperties.map((property) => (
-              <Card key={property.id} className="group hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2">
+            {featuredProperties.map((property, index) => (
+              <Card key={property.id} className={`group card-hover shimmer stagger-item`}>
                 <div className="relative overflow-hidden rounded-t-lg">
                   <img
                     src={property.image}
                     alt={property.title}
-                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300"
+                    className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                   {property.featured && (
-                    <Badge className="absolute top-4 left-4 bg-gold text-navy">
+                    <Badge className="absolute top-4 left-4 bg-gold text-navy floating">
                       Featured
                     </Badge>
                   )}
@@ -213,9 +220,9 @@ const Home = () => {
             ))}
           </div>
 
-          <div className="text-center mt-12">
+          <div className="text-center mt-12 reveal reveal-delay-300">
             <Link to="/listings">
-              <Button variant="cta" size="lg">
+              <Button variant="cta" size="lg" className="btn-magnetic">
                 View All Properties
                 <ArrowRight className="w-5 h-5 ml-2" />
               </Button>
@@ -225,10 +232,10 @@ const Home = () => {
       </section>
 
       {/* About Section */}
-      <section className="py-20 bg-cream">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-cream" ref={aboutRef}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
+            <div className="reveal reveal-delay-100">
               <h2 className="text-3xl md:text-4xl font-bold text-navy mb-6">
                 Your Trusted Real Estate Partner
               </h2>
@@ -236,22 +243,22 @@ const Home = () => {
                 With over 15 years of experience in the real estate market, Sainah Homes has been helping families find their perfect homes and investors discover profitable opportunities.
               </p>
               <div className="space-y-4 mb-8">
-                <div className="flex items-start">
-                  <CheckCircle className="w-6 h-6 text-gold mr-3 mt-1" />
+                <div className="flex items-start stagger-item">
+                  <CheckCircle className="w-6 h-6 text-gold mr-3 mt-1 pulse-glow" />
                   <div>
                     <h4 className="font-semibold text-navy">Expert Local Knowledge</h4>
                     <p className="text-text-soft">Deep understanding of neighborhood trends and market values</p>
                   </div>
                 </div>
-                <div className="flex items-start">
-                  <CheckCircle className="w-6 h-6 text-gold mr-3 mt-1" />
+                <div className="flex items-start stagger-item">
+                  <CheckCircle className="w-6 h-6 text-gold mr-3 mt-1 pulse-glow" />
                   <div>
                     <h4 className="font-semibold text-navy">Personalized Service</h4>
                     <p className="text-text-soft">Tailored solutions to meet your unique real estate needs</p>
                   </div>
                 </div>
-                <div className="flex items-start">
-                  <CheckCircle className="w-6 h-6 text-gold mr-3 mt-1" />
+                <div className="flex items-start stagger-item">
+                  <CheckCircle className="w-6 h-6 text-gold mr-3 mt-1 pulse-glow" />
                   <div>
                     <h4 className="font-semibold text-navy">End-to-End Support</h4>
                     <p className="text-text-soft">From property search to closing, we're with you every step</p>
@@ -259,35 +266,38 @@ const Home = () => {
                 </div>
               </div>
               <Link to="/about">
-                <Button variant="cta" size="lg">
+                <Button variant="cta" size="lg" className="btn-magnetic">
                   Learn More About Us
                   <ArrowRight className="w-5 h-5 ml-2" />
                 </Button>
               </Link>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-4 reveal reveal-delay-200">
               <div className="space-y-4">
                 <img
                   src={property1}
                   alt="Modern living room"
-                  className="w-full h-40 object-cover rounded-lg shadow-lg"
+                  className="w-full h-40 object-cover rounded-lg shadow-lg magnetic floating"
                 />
                 <img
                   src={property3}
                   alt="Beautiful bedroom"
-                  className="w-full h-56 object-cover rounded-lg shadow-lg"
+                  className="w-full h-56 object-cover rounded-lg shadow-lg magnetic floating"
+                  style={{ animationDelay: '1s' }}
                 />
               </div>
               <div className="space-y-4 mt-8">
                 <img
                   src={property2}
                   alt="Modern kitchen"
-                  className="w-full h-56 object-cover rounded-lg shadow-lg"
+                  className="w-full h-56 object-cover rounded-lg shadow-lg magnetic floating"
+                  style={{ animationDelay: '0.5s' }}
                 />
                 <img
                   src={property1}
                   alt="Living space"
-                  className="w-full h-40 object-cover rounded-lg shadow-lg"
+                  className="w-full h-40 object-cover rounded-lg shadow-lg magnetic floating"
+                  style={{ animationDelay: '1.5s' }}
                 />
               </div>
             </div>
@@ -296,20 +306,20 @@ const Home = () => {
       </section>
 
       {/* Testimonials */}
-      <section className="py-20 bg-background">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+      <section className="py-20 bg-background" ref={testimonialsRef}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 reveal">
+          <div className="text-center mb-16 reveal reveal-delay-100">
             <h2 className="text-3xl md:text-4xl font-bold text-navy mb-4">What Our Clients Say</h2>
             <p className="text-xl text-text-soft">Hear from families who found their perfect homes with us</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {testimonials.map((testimonial, index) => (
-              <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
+              <Card key={index} className="p-6 card-hover shimmer stagger-item">
                 <CardContent className="p-0">
                   <div className="flex items-center mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 fill-gold text-gold" />
+                      <Star key={i} className="w-5 h-5 fill-gold text-gold pulse-glow" />
                     ))}
                   </div>
                   <p className="text-text-soft mb-4 italic">"{testimonial.text}"</p>
@@ -325,22 +335,22 @@ const Home = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-navy">
+      <section className="py-20 bg-navy reveal">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 text-reveal">
             Ready to Find Your Dream Home?
           </h2>
-          <p className="text-xl text-white/90 mb-8">
+          <p className="text-xl text-white/90 mb-8 text-reveal text-reveal-delay-1">
             Let our experienced team help you navigate the real estate market with confidence
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center text-reveal text-reveal-delay-2">
             <Link to="/contact">
-              <Button variant="hero" size="xl">
+              <Button variant="hero" size="xl" className="btn-magnetic">
                 Get Started Today
               </Button>
             </Link>
             <Link to="/listings">
-              <Button variant="outline" size="xl" className="border-white text-white hover:bg-white hover:text-navy">
+              <Button variant="outline" size="xl" className="border-white text-white hover:bg-white hover:text-navy btn-magnetic">
                 Browse Properties
               </Button>
             </Link>
